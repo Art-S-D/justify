@@ -1,0 +1,20 @@
+{
+    "name": "justify",
+    "version": "1.0.0",
+    "main": "src/app.ts",
+    "repository": "git@github.com:Art-S-D/justify.git",
+    "author": "arthur <artstdenis@gmail.com>",
+    "license": "MIT",
+    "dependencies": {
+        "@types/express": "^4.17.13",
+        "@types/node": "^16.4.5",
+        "express": "^4.17.1",
+        "ts-node": "^10.1.0",
+        "ts-node-dev": "^1.1.8",
+        "typescript": "^4.3.5"
+    },
+    "scripts": {
+        "start": "ts-node src/app.ts",
+        "dev": "ts-node-dev src/app.ts"
+    }
+}
