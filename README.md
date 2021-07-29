@@ -1,4 +1,6 @@
 # Justify
+![CI](https://github.com/Art-S-D/justify/workflows/CI/badge.svg)
+
 
 A node server to justify text.
 
