@@ -32,9 +32,8 @@ app.post(
             const justified = justify(req.body);
 
             // Buffer.from prevents express from removing extra spaces
-            res.status(200).send(Buffer.from(justified));
+            return res.status(200).send(Buffer.from(justified));
         });
-        res.sendStatus(400);
     }
 );
 
