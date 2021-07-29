@@ -10,6 +10,9 @@ jobs:
                   node-version: "16"
             - uses: borales/actions-yarn@v2.3.0
               with:
+                  cmd: install
+            - uses: borales/actions-yarn@v2.3.0
+              with:
                   cmd: lint
             - uses: borales/actions-yarn@v2.3.0
               with:
