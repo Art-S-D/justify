@@ -13,7 +13,7 @@ export function wrapLine(line: string, width: number): string[] {
     const words = line.split(" ").reverse();
     if (words.length === 0) return [];
 
-    let result = [];
+    const result = [];
     let currentLine = null;
 
     while (words.length > 0) {
@@ -52,7 +52,7 @@ export function wrapLine(line: string, width: number): string[] {
  * @returns string
  */
 export function fitToWidth(line: string, width: number): string {
-    let words = line.split(" ");
+    const words = line.split(" ");
     if (line.length >= width) return line;
     const missingSpaces = width - line.length;
 
@@ -78,7 +78,7 @@ export function fitToWidth(line: string, width: number): string {
  * @param  {number=80} width
  * @returns string
  */
-export default function justify(input: string, width: number = 80): string {
+export default function justify(input: string, width = 80): string {
     const lines = input.split(/\r?\n/);
 
     let result = "";
