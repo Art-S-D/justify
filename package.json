@@ -23,14 +23,16 @@
         "start": "NODE_ENV=production ts-node src/app.ts",
         "dev": "NODE_ENV=development ts-node-dev src/app.ts",
         "lint": "eslint src/**",
-        "test": "jest"
+        "test": "NODE_ENV=test jest --detectOpenHandles"
     },
     "devDependencies": {
         "@types/jest": "^26.0.24",
         "@typescript-eslint/eslint-plugin": "^4.28.5",
         "@typescript-eslint/parser": "^4.28.5",
+        "@types/supertest": "^2.0.11",
         "eslint": "^7.31.0",
         "jest": "^27.0.6",
-        "ts-jest": "^27.0.4"
+        "ts-jest": "^27.0.4",
+        "supertest": "^6.1.4"
     }
 }

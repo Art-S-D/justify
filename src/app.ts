@@ -48,6 +48,7 @@ app.post("/api/justify", (req, res) => {
         if (!req.is("text/plain")) return res.sendStatus(400);
         const justified = justify(req.body);
 
+        res.set("Content-Type", "text/plain");
         // Buffer.from prevents express from removing extra spaces
         return res.status(200).send(Buffer.from(justified));
     });
@@ -64,6 +65,10 @@ app.post("/api/token", async (req, res) => {
     }
 });
 
-app.listen(env.APP_PORT, () => {
-    console.log(`app listening on port ${env.APP_PORT}`);
-});
+if (env.NODE_ENV === "development" || env.NODE_ENV === "production")
+    app.listen(env.APP_PORT, () => {
+        console.log(`app listening on port ${env.APP_PORT}`);
+    });
+
+export { rateLimitInterval, rateLimitStore };
+export default app;

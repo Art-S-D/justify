@@ -2,7 +2,7 @@ import { cleanEnv, num, str } from "envalid";
 
 export default cleanEnv(process.env, {
     NODE_ENV: str({
-        choices: ["development", "production"],
+        choices: ["development", "production", "test"],
     }),
 
     APP_PORT: num({
