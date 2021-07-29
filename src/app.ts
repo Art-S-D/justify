@@ -6,6 +6,8 @@ import * as yup from "yup";
 import justify from "./justify";
 import env from "./envalid";
 
+const MAX_REQUESTS = 80_000;
+
 const TokenSchema = yup.object({
     email: yup.string().email(),
 });
@@ -35,8 +37,13 @@ app.post("/api/justify", (req, res) => {
 
         // limit requests to 80_000 per day
         const previousRequests = rateLimitStore.get(decoded!.email) || 0;
-        if (previousRequests >= 80_000) return res.sendStatus(402);
+        if (previousRequests > MAX_REQUESTS) return res.sendStatus(402);
         rateLimitStore.set(decoded!.email, previousRequests + 1);
+
+        res.set(
+            "X-RateLimit-Left",
+            (MAX_REQUESTS - previousRequests - 1).toString()
+        );
 
         if (!req.is("text/plain")) return res.sendStatus(400);
         const justified = justify(req.body);
@@ -49,7 +56,7 @@ app.post("/api/justify", (req, res) => {
 app.post("/api/token", async (req, res) => {
     if (await TokenSchema.isValid(req.body)) {
         const token = jwt.sign({ email: req.body.email }, env.APP_SECRET, {
-            expiresIn: "7 days",
+            expiresIn: "2 days",
         });
         res.status(200).json({ token });
     } else {
