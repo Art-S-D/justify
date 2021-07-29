@@ -10,32 +10,41 @@ const TokenSchema = yup.object({
     email: yup.string().email(),
 });
 
+const rateLimitStore = new Map<string, number>();
+// reset the store every day
+const rateLimitInterval = setInterval(
+    () => rateLimitStore.clear(),
+    1_000 * 60 * 60 * 24
+);
+rateLimitInterval.unref();
+
 const app = express();
 app.use(bodyParser.text());
 app.use(bodyParser.json());
 
-app.post(
-    "/api/justify",
-    //TODO limite rate
-    (req, res) => {
-        const token = req.header("bearer");
+app.post("/api/justify", (req, res) => {
+    const token = req.header("bearer");
 
-        if (!token) return res.sendStatus(401);
+    if (!token) return res.sendStatus(401);
 
-        jwt.verify(token, env.APP_SECRET, (err /* , decoded */) => {
-            if (err) {
-                console.error(err);
-                return res.sendStatus(401);
-            }
+    jwt.verify(token, env.APP_SECRET, (err, decoded) => {
+        if (err) {
+            console.error(err);
+            return res.sendStatus(401);
+        }
 
-            if (!req.is("text/plain")) return res.sendStatus(400);
-            const justified = justify(req.body);
+        // limit requests to 80_000 per day
+        const previousRequests = rateLimitStore.get(decoded!.email) || 0;
+        if (previousRequests >= 80_000) return res.sendStatus(402);
+        rateLimitStore.set(decoded!.email, previousRequests + 1);
 
-            // Buffer.from prevents express from removing extra spaces
-            return res.status(200).send(Buffer.from(justified));
-        });
-    }
-);
+        if (!req.is("text/plain")) return res.sendStatus(400);
+        const justified = justify(req.body);
+
+        // Buffer.from prevents express from removing extra spaces
+        return res.status(200).send(Buffer.from(justified));
+    });
+});
 
 app.post("/api/token", async (req, res) => {
     if (await TokenSchema.isValid(req.body)) {
