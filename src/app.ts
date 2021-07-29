@@ -24,6 +24,12 @@ const app = express();
 app.use(bodyParser.text());
 app.use(bodyParser.json());
 
+/**
+ * justify a text
+ * @param  {string} the user token in the Bearer header
+ * @param  {string} the text to justify in the request body
+ * @returns the justified input in plain text
+ */
 app.post("/api/justify", (req, res) => {
     const token = req.header("bearer");
 
@@ -54,6 +60,11 @@ app.post("/api/justify", (req, res) => {
     });
 });
 
+/**
+ * create a jwt token from an email
+ * @param  {{"email":"XXX"}} the user email in the request body
+ * @returns the jwt token in the token field of the response body
+ */
 app.post("/api/token", async (req, res) => {
     if (await TokenSchema.isValid(req.body)) {
         const token = jwt.sign({ email: req.body.email }, env.APP_SECRET, {
