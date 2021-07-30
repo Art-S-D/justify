@@ -77,8 +77,8 @@ app.post("/api/token", async (req, res) => {
 });
 
 if (env.NODE_ENV === "development" || env.NODE_ENV === "production")
-    app.listen(env.APP_PORT, () => {
-        console.log(`app listening on port ${env.APP_PORT}`);
+    app.listen(env.PORT, () => {
+        console.log(`app listening on port ${env.PORT}`);
     });
 
 export { rateLimitInterval, rateLimitStore };

@@ -5,7 +5,7 @@ export default cleanEnv(process.env, {
         choices: ["development", "production", "test"],
     }),
 
-    APP_PORT: num({
+    PORT: num({
         default: 8000,
     }),
     APP_SECRET: str({
