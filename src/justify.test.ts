@@ -55,9 +55,11 @@ Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac tu
 `;
         const result = justify(input, 40);
         for (const line of result.split("\n")) {
-            expect(line.length).toBe(40);
-            expect(line.charCodeAt(0)).not.toBe(" ");
-            expect(line.charCodeAt(39)).not.toBe(" ");
+            if (line.trim().length) {
+                expect(line.length).toBe(40);
+                expect(line.charCodeAt(0)).not.toBe(" ");
+                expect(line.charCodeAt(39)).not.toBe(" ");
+            }
         }
     });
 });
