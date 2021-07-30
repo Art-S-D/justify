@@ -77,12 +77,15 @@ export default function justify(input: string, width = 80): string {
 
     for (const line of lines) {
         const trimmed = line.replace(/ +/g, " ").trim();
-        if (trimmed.length === 0) continue;
+        if (trimmed.length === 0) {
+            result += "\n";
+            continue;
+        }
 
         for (const wrappedLine of wrapLine(trimmed, width)) {
             const fitted = fitToWidth(wrappedLine, width);
             result = result.length ? `${result}\n${fitted}` : fitted;
         }
     }
-    return result;
+    return result.replace(/\n\n\n+/g, "\n\n");
 }
