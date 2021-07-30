@@ -56,18 +56,10 @@ export function fitToWidth(line: string, width: number): string {
     if (line.length >= width) return line;
     const missingSpaces = width - line.length;
 
-    // we need to add at least *minSpacesToAdd* to every word to reach *width* characters
-    const minSpacesToAdd = Math.floor(missingSpaces / (words.length - 1));
-    if (minSpacesToAdd)
-        for (let i = 0; i < words.length - 1; i++)
-            words[i] += " ".repeat(minSpacesToAdd);
-
-    // if there are some spaces left to add after adding *minSpacesToAdd* to every word
-    // we add one space to the first *spacesLeft* words
-    const spacesLeft = missingSpaces - minSpacesToAdd * (words.length - 1);
-    for (let i = 0; i < spacesLeft; i++) {
-        words[i] += " ";
+    for (let i = 0; i < missingSpaces; i++) {
+        words[i % (words.length - 1)] += " ";
     }
+
     return words.join(" ");
 }
 
